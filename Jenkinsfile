@@ -4,14 +4,15 @@ pipeline {
     environment {
         APP_NAME = "simple-hello-app"
         IMAGE_STREAM = "simple-hello-app-image"
+        OPENSHIFT_SERVER = "https://your-openshift-api-url:6443"  // replace with actual
     }
 
-    stage('Clone Repo') {
-    steps {
-        git branch: 'main', url: 'https://github.com/spavankumar1234/simple-hello-app.git'
-    }
-}
-
+    stages {
+        stage('Clone Repo') {
+            steps {
+                git branch: 'main', url: 'https://github.com/spavankumar1234/simple-hello-app.git'
+            }
+        }
 
         stage('Login to OpenShift') {
             steps {
@@ -22,8 +23,8 @@ pipeline {
         stage('Build Image') {
             steps {
                 sh '''
-                oc new-build --name=${IMAGE_STREAM} --binary --strategy=docker || echo "Build exists"
-                oc start-build ${IMAGE_STREAM} --from-dir=. --follow
+                    oc new-build --name=${IMAGE_STREAM} --binary --strategy=docker || echo "Build exists"
+                    oc start-build ${IMAGE_STREAM} --from-dir=. --follow
                 '''
             }
         }
@@ -31,8 +32,8 @@ pipeline {
         stage('Deploy App') {
             steps {
                 sh '''
-                oc new-app ${IMAGE_STREAM} --name=${APP_NAME} || echo "App exists"
-                oc expose svc/${APP_NAME} || echo "Route exists"
+                    oc new-app ${IMAGE_STREAM} --name=${APP_NAME} || echo "App exists"
+                    oc expose svc/${APP_NAME} || echo "Route exists"
                 '''
             }
         }
