@@ -6,12 +6,12 @@ pipeline {
         IMAGE_STREAM = "simple-hello-app-image"
     }
 
-    stages {
-        stage('Clone Repo') {
-            steps {
-                git branch:' main', url: 'https://github.com/spavankumar1234/simple-hello-app.git'
-            }
-        }
+    stage('Clone Repo') {
+    steps {
+        git branch: 'main', url: 'https://github.com/spavankumar1234/simple-hello-app.git'
+    }
+}
+
 
         stage('Login to OpenShift') {
             steps {
