@@ -9,7 +9,7 @@ pipeline {
     stages {
         stage('Clone Repo') {
             steps {
-                git 'https://github.com/spavankumar1234/simple-hello-app.git'
+                git branch:' main', url: 'https://github.com/spavankumar1234/simple-hello-app.git'
             }
         }
 
